@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>FaceMesh in M4L</title>
+  <style>canvas { display: none; }</style>
+</head>
+<body>
+  <video class="input_video" autoplay muted playsinline width="640" height="480"></video>
+  <canvas class="output_canvas" width="640" height="480"></canvas>
+
+  <!-- Mediapipe JS (loader stub points to your local WASM) -->
+  <script src="face_mesh_solution_wasm_bin.js"></script>
+  <script type="module">
+    import { FaceMesh } from '@mediapipe/face_mesh';
+    import { Camera }   from '@mediapipe/camera_utils';
+
+    const video  = document.querySelector('.input_video');
+    const canvas = document.querySelector('.output_canvas');
+    const ctx    = canvas.getContext('2d');
+
+    // 1) Init FaceMesh, telling it where your WASM lives
+    const faceMesh = new FaceMesh({
+      locateFile: (file) => `face_mesh_solution_wasm_bin.wasm`
+    });
+    faceMesh.setOptions({
+      maxNumFaces: 1,
+      refineLandmarks: true,
+      minDetectionConfidence: 0.5,
+      minTrackingConfidence: 0.5
+    });
+
+    // 2) On each results, draw (optional) & postMessage() the landmarks
+    faceMesh.onResults(results => {
+      if (!results.multiFaceLandmarks?.length) return;
+      // (optional) draw for debugging
+      ctx.drawImage(results.image, 0,0,640,480);
+
+      // send only the first face’s x,y,z array
+      const lm = results.multiFaceLandmarks[0]
+        .map(({x,y,z}) => [x,y,z])
+        .flat();
+      window.postMessage(JSON.stringify({ landmarks: lm }));
+    });
+
+    // 3) Start the camera
+    const camera = new Camera(video, {
+      onFrame: async () => { await faceMesh.send({image: video}); },
+      width: 640,
+      height: 480
+    });
+    camera.start();
+  </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+*.onnx filter=lfs diff=lfs merge=lfs -text
+*.pkg filter=lfs diff=lfs merge=lfs -text
+whisper_transcriber filter=lfs diff=lfs merge=lfs -text
+Speech_recog/dist/whisper_transcriber filter=lfs diff=lfs merge=lfs -text

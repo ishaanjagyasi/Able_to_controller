@@ -1,0 +1,28 @@
+{
+  "name": "able-to-controller",
+  "version": "1.0.0",
+  "description": "Face tracking OSC device for Max for Live using MediaPipe",
+  "main": "bridge.js",
+  "scripts": {
+    "start": "node bridge.js"
+  },
+  "keywords": [
+    "max-for-live",
+    "face-tracking",
+    "osc",
+    "mediapipe",
+    "ableton",
+    "computer-vision",
+    "speech-to-text"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "@xenova/transformers": "^2.17.1",
+    "node-osc": "^9.1.5",
+    "sharp": "^0.34.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
