@@ -1,0 +1,8 @@
+Progress......
+
+1) Mixer Device
+	a) Solo - WORKS!
+	b) Volume fader - WORKS!
+	c) Audio Input Monitoring - WORKS!
+	d) Audio Input Types - WORKS!
+	e) Audio Input Channel - IN PROGRES.......
